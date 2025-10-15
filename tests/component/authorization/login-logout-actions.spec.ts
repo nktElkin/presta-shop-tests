@@ -50,7 +50,7 @@ test.describe('Login/Logout actions', () => {
     
     const currentUrl = page.url();
     console.log('Current URL after login:', currentUrl);
-    expect(currentUrl).toMatch(loginPageUrl);
+    expect(currentUrl).toMatch(mainPageUrl);
     
     // Step 3: Find and click logout link
     // Common logout link selectors in PrestaShop
