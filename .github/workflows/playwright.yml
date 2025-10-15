@@ -18,10 +18,10 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright Component tests
-      run: npx playwright test @component
+      run: npx playwright test --grep @component
       continue-on-error: false
     - name: Run Playwright E2E tests
-      run: npx playwright test @e2e
+      run: npx playwright test --grep @e2e
       continue-on-error: false
     - name: Upload Playwright Report
       uses: actions/upload-artifact@v4
@@ -30,3 +30,32 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+  notify:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Check test results
+      run: |
+        echo "Test job completed with status: ${{ needs.test.result }}"
+        
+    - name: Send notification (fake)
+      run: |
+        echo "================================================"
+        echo "         TEST EXECUTION SUMMARY"
+        echo "================================================"
+        echo "Status: ${{ needs.test.result }}"
+        echo "Workflow: ${{ github.workflow }}"
+        echo "Branch: ${{ github.ref_name }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "Author: ${{ github.actor }}"
+        echo "================================================"
+        
+    - name: Generate test summary (fake)
+      run: |
+        echo "Generating test summary report..."
+        echo "Component tests: COMPLETED"
+        echo "E2E tests: COMPLETED"
+        echo "Report available in artifacts"
+
